@@ -51,7 +51,20 @@ RESOURCES = [
     { "category": "Apoyo médico y psicológico", "name": "Pacientes Terremoto VZLA", "url": "https://pacientesterremotovzla.lovable.app/", "description": "Solicitud de insumos y apoyo a pacientes afectados." },
     { "category": "Apoyo médico y psicológico", "name": "NueveOnce", "url": "https://www.nueveonce.com/", "description": "Servicios de paramédicos y ambulancias." },
     { "category": "Apoyo médico y psicológico", "name": "VenEmergencia", "url": "https://venemergencia.com/", "description": "Orientación médica de emergencia." },
-    { "category": "Mascotas", "name": "HuellasCan", "url": "https://www.huellascan.com/terremoto", "description": "Rescate y refugio para mascotas extraviadas." }
+    { "category": "Mascotas", "name": "HuellasCan", "url": "https://www.huellascan.com/terremoto", "description": "Rescate y refugio para mascotas extraviadas." },
+    { "category": "Alimentación y refugios", "name": "Refugio San Bernardino", "url": "#", "description": "Complejo Cultural y Deportivo Guayana Esequiba" },
+    { "category": "Alimentación y refugios", "name": "Refugio 23 de Enero", "url": "#", "description": "Estadio Chato Candela" },
+    { "category": "Alimentación y refugios", "name": "Refugio El Paraíso", "url": "#", "description": "Sede del Instituto Nacional de Deportes" },
+    { "category": "Alimentación y refugios", "name": "Refugio San Juan", "url": "#", "description": "Sede de Ipostel" },
+    { "category": "Alimentación y refugios", "name": "Refugio Catia (Caro)", "url": "#", "description": "Liceo Miguel Antonio Caro" },
+    { "category": "Alimentación y refugios", "name": "Parque Alí Primera (Catia)", "url": "#", "description": "Recepción, atención médica y traslados de La Guaira" },
+    { "category": "Alimentación y refugios", "name": "Parque del Este", "url": "#", "description": "Parque Generalísimo Francisco de Miranda (Mcpio. Sucre) - Resguardo vecinos del este" },
+    { "category": "Alimentación y refugios", "name": "Plaza Altamira", "url": "#", "description": "Resguardo y asistencia médica móvil (Mcpio. Chacao)" },
+    { "category": "Alimentación y refugios", "name": "Refugio Santa Teresa", "url": "#", "description": "Unidad Educativa Nacional Francisco Pimentel" },
+    { "category": "Alimentación y refugios", "name": "Refugio Santa Rosalía", "url": "#", "description": "Unidad Educativa Nacional Gran Colombia" },
+    { "category": "Alimentación y refugios", "name": "Refugio El Junquito", "url": "#", "description": "Unidad Educativa Nacional Luís Hurtado Higuera" },
+    { "category": "Centros de acopio", "name": "Plaza Bolívar de Chacao", "url": "#", "description": "Carpas, insumos y centro de acopio" },
+    { "category": "Alimentación y refugios", "name": "Coliseo de Petare", "url": "#", "description": "Coliseo de La Urbina (La Urbina)" }
 ]
 
 SYSTEM_PROMPT = f"""
