@@ -118,6 +118,14 @@ export default function Home() {
           >
             Red de Traductores
           </a>
+          <a
+            href="https://chat.whatsapp.com/KERFsSNPLuPHHDBU0Q7uvV?s=cl&p=i&mlu=4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 rounded-full bg-green-600 hover:bg-green-500 text-white font-bold text-lg shadow-lg shadow-green-500/20 transition-all hover:-translate-y-1 flex items-center gap-2"
+          >
+            Grupo de Difusión
+          </a>
         </motion.div>
       </div>
 
