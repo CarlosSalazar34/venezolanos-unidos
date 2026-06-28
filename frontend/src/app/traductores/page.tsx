@@ -23,7 +23,7 @@ export default function TraductoresPage() {
   const fetchTraductores = async (q: string = "") => {
     setLoading(true);
     try {
-      const res = await fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores${q ? `?q=${encodeURIComponent(q)}` : ""}`);
       const data = await res.json();
       setResults(data.traductores || []);
     } catch (error) {
@@ -47,7 +47,7 @@ export default function TraductoresPage() {
     if (!pin) return;
 
     try {
-      const res = await fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores/${id}?pin_seguridad=${encodeURIComponent(pin)}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores/${id}?pin_seguridad=${encodeURIComponent(pin)}`, {
         method: "DELETE"
       });
       if (res.ok) {

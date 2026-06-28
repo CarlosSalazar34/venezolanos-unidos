@@ -24,7 +24,7 @@ export default function ReportarPage() {
     setLoading(true);
 
     try {
-      const res = await fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/pacientes`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/pacientes`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

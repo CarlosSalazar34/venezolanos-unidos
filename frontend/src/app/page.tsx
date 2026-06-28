@@ -20,7 +20,7 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/resources`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/resources`)
       .then((res) => res.json())
       .then((data) => {
         if (data.resources) setResources(data.resources);

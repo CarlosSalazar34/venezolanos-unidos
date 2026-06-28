@@ -31,7 +31,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/estadisticas`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/estadisticas`)
       .then((res) => res.json())
       .then((data) => {
         setStats(data);

@@ -31,7 +31,7 @@ export default function BuscarPersonas() {
     setLoading(true);
     setHasSearched(true);
     try {
-      const res = await fetch(`\${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/pacientes/buscar?q=${encodeURIComponent(search)}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/pacientes/buscar?q=${encodeURIComponent(search)}`);
       const data = await res.json();
       setResults(data.pacientes || []);
     } catch (error) {
