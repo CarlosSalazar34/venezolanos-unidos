@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Globe, Phone, MapPin, Clock, ChevronLeft, Trash2, Plus } from "lucide-react";
+import {
+  Search,
+  Globe,
+  Phone,
+  MapPin,
+  Clock,
+  ChevronLeft,
+  Trash2,
+  Plus,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -23,7 +32,9 @@ export default function TraductoresPage() {
   const fetchTraductores = async (q: string = "") => {
     setLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores${q ? `?q=${encodeURIComponent(q)}` : ""}`,
+      );
       const data = await res.json();
       setResults(data.traductores || []);
     } catch (error) {
@@ -43,13 +54,18 @@ export default function TraductoresPage() {
   };
 
   const handleDelete = async (id: string) => {
-    const pin = prompt("Para eliminar tu registro, por favor ingresa tu PIN de seguridad (4 dígitos):");
+    const pin = prompt(
+      "Para eliminar tu registro, por favor ingresa tu PIN de seguridad (4 dígitos):",
+    );
     if (!pin) return;
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores/${id}?pin_seguridad=${encodeURIComponent(pin)}`, {
-        method: "DELETE"
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/traductores/${id}?pin_seguridad=${encodeURIComponent(pin)}`,
+        {
+          method: "DELETE",
+        },
+      );
       if (res.ok) {
         alert("Registro eliminado exitosamente.");
         fetchTraductores(search);
@@ -69,23 +85,37 @@ export default function TraductoresPage() {
 
   return (
     <main className="min-h-screen pt-24 pb-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-      <Link href="/" className="inline-flex items-center text-slate-400 hover:text-white mb-8 transition-colors">
+      <Link
+        href="/"
+        className="inline-flex items-center text-slate-400 hover:text-white mb-8 transition-colors"
+      >
         <ChevronLeft size={20} className="mr-1" />
         Volver al inicio
       </Link>
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Red de Traductores
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl">
-            Voluntarios bilingües y multilingües dispuestos a ayudar en la comunicación entre rescatistas internacionales y víctimas extranjeras.
+            Voluntarios bilingües y multilingües dispuestos a ayudar en la
+            comunicación entre rescatistas internacionales y víctimas
+            extranjeras.
           </p>
         </motion.div>
-        
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-          <Link href="/traductores/registro" className="inline-flex items-center px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20 transition-all hover:-translate-y-1">
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <Link
+            href="/traductores/registro"
+            className="inline-flex items-center px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20 transition-all "
+          >
             <Plus size={20} className="mr-2" />
             Quiero Ayudar
           </Link>
@@ -105,7 +135,7 @@ export default function TraductoresPage() {
         />
         <button
           type="submit"
-          className="absolute right-2 top-2 bottom-2 px-6 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition-colors"
+          className="absolute right-2 top-2 bottom-2 px-6 rounded-xl bg-foreground hover:opacity-80 transition-all duration-300 text-background font-bold  cursor-pointer"
         >
           Buscar
         </button>
@@ -120,9 +150,12 @@ export default function TraductoresPage() {
         ) : results.length === 0 ? (
           <div className="text-center py-20 glass-card rounded-3xl">
             <Globe className="mx-auto h-16 w-16 text-slate-500 mb-4" />
-            <h3 className="text-2xl font-medium text-white mb-2">No hay traductores disponibles</h3>
+            <h3 className="text-2xl font-medium text-white mb-2">
+              No hay traductores disponibles
+            </h3>
             <p className="text-slate-400 max-w-md mx-auto">
-              No encontramos traductores registrados para tu búsqueda. ¡Sé el primero en registrarte si dominas otro idioma!
+              No encontramos traductores registrados para tu búsqueda. ¡Sé el
+              primero en registrarte si dominas otro idioma!
             </p>
           </div>
         ) : (
@@ -139,13 +172,13 @@ export default function TraductoresPage() {
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Globe size={100} />
                 </div>
-                
+
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="text-2xl font-bold text-white capitalize">
                       {t.nombres}
                     </h3>
-                    <button 
+                    <button
                       onClick={() => handleDelete(t.id)}
                       className="text-slate-500 hover:text-red-400 transition-colors p-2"
                       title="Eliminar registro"
@@ -153,7 +186,7 @@ export default function TraductoresPage() {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                  
+
                   <div className="inline-block px-4 py-1.5 rounded-full bg-blue-500/20 text-blue-300 font-medium mb-6">
                     {t.idiomas}
                   </div>
@@ -173,9 +206,9 @@ export default function TraductoresPage() {
                     )}
                   </div>
 
-                  <a 
-                    href={formatWhatsAppUrl(t.telefono)} 
-                    target="_blank" 
+                  <a
+                    href={formatWhatsAppUrl(t.telefono)}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center w-full py-3 px-4 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold transition-colors"
                   >

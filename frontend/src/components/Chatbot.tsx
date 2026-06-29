@@ -15,7 +15,8 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "Hola, soy el asistente virtual de Venezolanos Unidos. ¿En qué te puedo ayudar hoy? Puedes preguntarme sobre cómo buscar desaparecidos, rescates, centros de acopio, etc.",
+      content:
+        "Hola, soy el asistente virtual de Venezolanos Unidos. ¿En qué te puedo ayudar hoy? Puedes preguntarme sobre cómo buscar desaparecidos, rescates, centros de acopio, etc.",
     },
   ]);
   const [input, setInput] = useState("");
@@ -40,20 +41,39 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/chat`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg }),
+        },
+      );
       const data = await res.json();
       if (data.response) {
-        setMessages((prev) => [...prev, { role: "assistant", content: data.response }]);
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", content: data.response },
+        ]);
       } else {
-        setMessages((prev) => [...prev, { role: "assistant", content: "Lo siento, hubo un error de conexión con el servidor." }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: "Lo siento, hubo un error de conexión con el servidor.",
+          },
+        ]);
       }
     } catch (error) {
       console.error(error);
-      setMessages((prev) => [...prev, { role: "assistant", content: "Lo siento, no pude contactar al servidor. Verifica que esté corriendo localmente en el puerto 8000." }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            "Lo siento, no pude contactar al servidor. Verifica que esté corriendo localmente en el puerto 8000.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +83,7 @@ export default function Chatbot() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-110 z-50 flex items-center justify-center"
+        className="fixed bottom-6 right-6 p-4 rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition-all hover:scale-110 z-50 flex items-center justify-center cursor-pointer"
       >
         <MessageCircle size={28} />
       </button>
@@ -107,7 +127,12 @@ export default function Chatbot() {
                     <ReactMarkdown
                       components={{
                         a: ({ node, ...props }) => (
-                          <a {...props} target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline font-semibold transition-colors" />
+                          <a
+                            {...props}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-yellow-400 hover:text-yellow-300 underline font-semibold transition-colors"
+                          />
                         ),
                         strong: ({ node, ...props }) => (
                           <strong {...props} className="font-bold text-white" />
@@ -120,7 +145,7 @@ export default function Chatbot() {
                         ),
                         li: ({ node, ...props }) => (
                           <li {...props} className="mb-1" />
-                        )
+                        ),
                       }}
                     >
                       {msg.content}
@@ -131,7 +156,10 @@ export default function Chatbot() {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="bg-slate-700 text-slate-100 rounded-2xl p-3 rounded-bl-sm flex items-center gap-2">
-                    <Loader2 size={16} className="animate-spin text-yellow-400" />
+                    <Loader2
+                      size={16}
+                      className="animate-spin text-yellow-400"
+                    />
                     <span className="text-sm">Pensando...</span>
                   </div>
                 </div>
@@ -140,7 +168,10 @@ export default function Chatbot() {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={sendMessage} className="p-4 border-t border-white/10 bg-slate-800/50">
+            <form
+              onSubmit={sendMessage}
+              className="p-4 border-t border-white/10 bg-slate-800/50"
+            >
               <div className="relative flex items-center">
                 <input
                   type="text"
