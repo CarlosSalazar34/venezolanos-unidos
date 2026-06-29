@@ -20,10 +20,13 @@ load_dotenv()
 
 app = FastAPI(title="Venezolanos Unidos API")
 
-# Allow CORS for Next.js frontend
+# Allow CORS exclusively for the official web (configurable via env for local dev)
+DEFAULT_ORIGINS = "https://venezolanosunidos.com,https://www.venezolanosunidos.com"
+ALLOWED_ORIGINS = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", DEFAULT_ORIGINS).split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Since this is local, allow all
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
