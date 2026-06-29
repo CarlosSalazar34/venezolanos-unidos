@@ -21,6 +21,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from database import get_db, Base, engine
 import models
+from normalize import clean_cedula, canonical_condicion
 
 # Create database tables if they don't exist
 Base.metadata.create_all(bind=engine)
@@ -141,6 +142,7 @@ def buscar_pacientes(
             "cedula": paciente.cedula_id,
             "edad": paciente.edad,
             "condicion": paciente.condicion_actual,
+            "tipo": paciente.tipo_registro,
             "procedencia": paciente.procedencia,
             "fecha_reporte": paciente.fecha_registro,
             "centro_nombre": centro.nombre_centro if centro else "Desconocido",
@@ -212,14 +214,17 @@ def create_paciente(paciente: PacienteCreate, db: Session = Depends(get_db)):
         db.commit()
         db.refresh(centro)
         
+    # Normalización canónica: cédula -> NULL si no es válida; condición controlada.
+    condicion, tipo_registro = canonical_condicion(paciente.condicion)
     nuevo_paciente = models.Paciente(
         nombres=paciente.nombres.title(),
         apellidos=paciente.apellidos.title(),
-        cedula_id=paciente.cedula,
+        cedula_id=clean_cedula(paciente.cedula),
         edad=paciente.edad,
         procedencia=paciente.procedencia.title() if paciente.procedencia else None,
         id_ubicacion=centro.id_centro,
-        condicion_actual=paciente.condicion,
+        condicion_actual=condicion,
+        tipo_registro=tipo_registro,
         plataforma_origen="Formulario Web Manual"
     )
     
