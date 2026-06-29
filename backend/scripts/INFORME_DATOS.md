@@ -77,6 +77,26 @@ url, tipo) y FK desde `pacientes`, para auditar de dónde vino cada registro.
 La tabla existe pero tiene **0 filas**. Es justo lo que serviría para la reunificación
 familiar (teléfono de contacto del reportante). Hoy se desaprovecha.
 
+## 4b. PoC venezuelareporta: NO viable (privacidad por diseño)
+
+Intenté el adaptador de venezuelareporta (el sitio de mayor valor). Hallazgo:
+**el sitio trunca todos los nombres a propósito** — en las tarjetas, en el `<title>` y en
+los meta `og:` ("Camila lop…", "Gianny Lay…"). No expone nombres completos ni cédula; esos
+datos viven en Supabase tras llamadas server-side. Conclusión:
+- Scrapearlo daría solo nombres parciales + edad + ciudad → **inútil para dedup** y de alto
+  riesgo de falso positivo.
+- Hacerlo además **sortearía una protección de privacidad intencional** del sitio.
+- **Único camino correcto:** pedirles acceso/feed oficial (acuerdo de compartición de datos).
+
+Esto refuerza que la vía sensata es **partnership con los proyectos**, no scraping de PII.
+
+## 4c. Resultado del dry-run de normalización (`migrate_normalize.py`)
+
+Ejecutado read-only sobre producción (nada escrito):
+- **Cédula:** 8.216 placeholders → NULL (3.978 `No documentado` + 3.770 `NO_REGISTRA` + 468 `""`).
+- **condicion_actual:** 4.596 renombres (Internado→Ingresado, Alta Médica→Alta, etc.).
+- **tipo_registro:** 1.942 registros marcados `DESAPARECIDO`; el resto `PACIENTE`.
+
 ## 5. Recomendación de ejecución (segura y no destructiva)
 
 1. **Pedir feeds oficiales** a los proyectos hermanos (vía WhatsApp/correo) — más confiable

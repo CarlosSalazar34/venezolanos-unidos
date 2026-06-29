@@ -4,6 +4,17 @@ from sqlalchemy.orm import relationship
 from database import Base
 import uuid
 
+# --- Valores canónicos (ver scripts/INFORME_DATOS.md) ---
+# Distingue a quien está bajo cuidado en un centro de quien está siendo buscado.
+TIPO_PACIENTE = "PACIENTE"
+TIPO_DESAPARECIDO = "DESAPARECIDO"
+
+# Conjunto controlado para condicion_actual (antes era texto libre con sinónimos).
+CONDICIONES = ("Ingresado", "Alta", "Fallecido", "Rescatado", "Desaparecido", "Desconocida")
+
+# Placeholder único para "sin cédula" (antes había 3: 'No documentado', 'NO_REGISTRA', '').
+CEDULA_AUSENTE = None  # se almacena como NULL
+
 class CentroSalud(Base):
     __tablename__ = "centros_salud"
 
@@ -32,7 +43,9 @@ class Paciente(Base):
     
     diagnostico = Column(Text, nullable=True)
     condicion_actual = Column(String(50))
-    
+    # PACIENTE (en un centro) vs DESAPARECIDO (persona buscada). Ver INFORME_DATOS.md
+    tipo_registro = Column(String(20), default=TIPO_PACIENTE, index=True)
+
     fecha_registro = Column(DateTime(timezone=True), server_default=func.now())
     hora_registro = Column(Time, server_default=func.now())
     plataforma_origen = Column(String(250))
