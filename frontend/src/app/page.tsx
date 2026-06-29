@@ -47,10 +47,10 @@ export default function Home() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card text-sm text-yellow-400 font-medium mb-8"
         >
           <AlertCircle size={16} />
-          <span>Información Oficial de Emergencia</span>
+          <span>Información de Emergencia del terremoto de en Venezuela</span>
         </motion.div>
-        
-        <motion.h1 
+
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -58,19 +58,19 @@ export default function Home() {
         >
           Venezolanos Unidos
         </motion.h1>
-        
-        <motion.p 
+
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
           className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
-          Plataforma centralizada de recursos, apoyo y asistencia tras el reciente sismo. 
+          Plataforma centralizada de recursos, apoyo y asistencia tras el reciente sismo.
           Encuentra centros de acopio, reportes de desaparecidos y evaluación estructural.
         </motion.p>
 
         {/* Search Bar */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
@@ -88,7 +88,7 @@ export default function Home() {
           />
         </motion.div>
         {/* Navigation Buttons */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
@@ -134,11 +134,10 @@ export default function Home() {
         <div className="flex flex-wrap justify-center gap-3">
           <button
             onClick={() => setSelectedCategory(null)}
-            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-              selectedCategory === null 
-                ? "bg-white text-slate-900 shadow-lg" 
+            className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${selectedCategory === null
+                ? "bg-white text-slate-900 shadow-lg"
                 : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
-            }`}
+              }`}
           >
             Todos
           </button>
@@ -146,11 +145,10 @@ export default function Home() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                selectedCategory === cat 
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20" 
+              className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
+                  ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
                   : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -165,7 +163,7 @@ export default function Home() {
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-400"></div>
           </div>
         ) : (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -194,7 +192,7 @@ export default function Home() {
 
       {/* Chatbot Component */}
       <Chatbot />
-      
+
       {/* Footer */}
       <footer className="mt-24 border-t border-white/10 py-8">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center text-slate-500 text-sm gap-2">
