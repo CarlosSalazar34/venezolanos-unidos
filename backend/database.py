@@ -1,5 +1,6 @@
 import os
 from sqlalchemy import create_engine
+from sqlalchemy.pool import NullPool
 from sqlalchemy.orm import declarative_base, sessionmaker
 from dotenv import load_dotenv
 
@@ -13,12 +14,14 @@ if SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
         SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
     )
 else:
-    # pool_pre_ping evita la latencia/errores por conexiones muertas (serverless),
-    # pool_recycle recicla conexiones antes de que el server las cierre.
+    # En serverless (Vercel) cada instancia es un proceso aparte y efímero. Un pool
+    # persistente por instancia multiplica conexiones y puede agotar el límite de
+    # Postgres bajo carga. NullPool abre/cierra una conexión por request; pool_pre_ping
+    # evita usar conexiones muertas tras un "congelamiento" de la función.
     engine = create_engine(
         SQLALCHEMY_DATABASE_URL,
+        poolclass=NullPool,
         pool_pre_ping=True,
-        pool_recycle=300,
     )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
