@@ -34,6 +34,10 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Data
 RESOURCES = [
+    { "category": "Apoyo médico y psicológico", "name": "Hospitales en Venezuela", "url": "https://hospitalesenvenezuela.com/", "description": "Directorio nacional de centros de salud y hospitales." },
+    { "category": "Rescate y emergencia", "name": "Red Ayuda Venezuela", "url": "https://redayudavenezuela.com/", "description": "Red de apoyo y asistencia para emergencias." },
+    { "category": "Rescate y emergencia", "name": "SOS Venezuela", "url": "https://sosvenezuela.com/", "description": "Plataforma de auxilio y respuesta rápida." },
+    { "category": "Centros de acopio", "name": "Ayuda en Camino", "url": "https://ayudaencamino.com/", "description": "Logística y distribución de donativos e insumos médicos." },
     { "category": "Personas desaparecidas", "name": "Venezuela Reporta", "url": "https://venezuelareporta.org/", "description": "Plataforma para reportar y buscar personas desaparecidas." },
     { "category": "Personas desaparecidas", "name": "Venezuela Te Busca", "url": "https://venezuelatebusca.com/", "description": "Base de datos de búsqueda familiar." },
     { "category": "Personas desaparecidas", "name": "Desaparecidos Terremoto Venezuela", "url": "https://desaparecidosterremotovenezuela.com/", "description": "Registro específico post-terremoto." },
