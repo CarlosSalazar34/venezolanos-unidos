@@ -21,11 +21,11 @@ const getCategoryIcon = (category: string) => {
 
 export default function ResourceCard({ resource }: { resource: ResourceProps }) {
   return (
-    <a 
-      href={resource.url} 
-      target="_blank" 
+    <a
+      href={resource.url}
+      target="_blank"
       rel="noopener noreferrer"
-      className="glass-card glass-card-hover block p-6 rounded-2xl h-full flex flex-col group cursor-pointer"
+      className="glass-card glass-card-hover p-6 rounded-2xl h-full flex flex-col group cursor-pointer"
     >
       <div className="flex items-start justify-between mb-4">
         <div className="p-3 bg-slate-900/50 rounded-xl">
@@ -37,14 +37,14 @@ export default function ResourceCard({ resource }: { resource: ResourceProps }) 
           </span>
         </div>
       </div>
-      
+
       <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors">
         {resource.name}
       </h3>
       <p className="text-slate-400 text-sm flex-1 leading-relaxed">
         {resource.description}
       </p>
-      
+
       <div className="mt-6 flex items-center text-blue-400 text-sm font-medium group-hover:text-blue-300 transition-colors">
         Visitar sitio web
         <ExternalLink size={14} className="ml-2 transition-transform group-hover:translate-x-1" />

@@ -54,7 +54,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-white to-blue-400"
+          className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 bg-clip-text text-transparent bg-linear-to-r from-yellow-400 via-white to-blue-400"
         >
           Venezolanos Unidos
         </motion.h1>
@@ -135,8 +135,8 @@ export default function Home() {
           <button
             onClick={() => setSelectedCategory(null)}
             className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${selectedCategory === null
-                ? "bg-white text-slate-900 shadow-lg"
-                : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
+              ? "bg-white text-slate-900 shadow-lg"
+              : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
               }`}
           >
             Todos
@@ -146,8 +146,8 @@ export default function Home() {
               key={cat}
               onClick={() => setSelectedCategory(cat)}
               className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${selectedCategory === cat
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                  : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
+                : "glass-card text-slate-300 hover:text-white hover:bg-slate-800"
                 }`}
             >
               {cat}
