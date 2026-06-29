@@ -7,6 +7,7 @@ import re
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from database import SessionLocal, engine, Base
 import models
+from normalize import clean_cedula as normalize_cedula
 
 URLS = [
     "https://docs.google.com/spreadsheets/d/1wzpm_7pd0fC4hFou5FzppMNeZkd6J6NvrPqy-PWNvRY/export?format=csv",
@@ -23,18 +24,10 @@ URLS = [
 ]
 
 def clean_cedula(val):
-    if pd.isna(val): return "No documentado"
-    val_str = str(val).strip().upper()
-    
-    # Buscar el primer patron que parezca cedula (V/E opcional seguido de 6-9 digitos)
-    match = re.search(r'(?:[VE]-?)?\s*(\d{6,9})', val_str)
-    if match:
-        num = match.group(1)
-        # Determinar letra
-        letra = 'E' if 'E' in val_str[:match.start()+1] else 'V'
-        return f"{letra}{num}"
-        
-    return "No documentado"
+    # Delega en la normalización canónica compartida (devuelve None si no hay cédula).
+    if pd.isna(val):
+        return None
+    return normalize_cedula(val)
 
 def get_col(row, possible_names):
     for name in possible_names:
@@ -112,7 +105,7 @@ def process_dataframe(df, db, source_url, existing_cedulas, existing_names, cent
         
         centro_id = centros_cache[nombre_centro_raw]
 
-        if cedula != "No documentado":
+        if cedula:
             if cedula in existing_cedulas: continue
             existing_cedulas.add(cedula)
         else:
@@ -137,6 +130,7 @@ def process_dataframe(df, db, source_url, existing_cedulas, existing_names, cent
             procedencia=procedencia.title() if procedencia else None,
             id_ubicacion=centro_id,
             condicion_actual=condicion,
+            tipo_registro="PACIENTE",
             plataforma_origen=source_url
         )
         db.add(paciente)
