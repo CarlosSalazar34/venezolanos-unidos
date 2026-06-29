@@ -1,10 +1,19 @@
 import os
+import time
 import uuid
 import datetime
 import random
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel
+
+# Serialización JSON más rápida si orjson está disponible; si no, usamos el default.
+try:
+    import orjson  # noqa: F401
+    from fastapi.responses import ORJSONResponse as _DefaultResponse
+except Exception:  # pragma: no cover
+    from fastapi.responses import JSONResponse as _DefaultResponse
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -18,7 +27,10 @@ Base.metadata.create_all(bind=engine)
 
 load_dotenv()
 
-app = FastAPI(title="Venezolanos Unidos API")
+app = FastAPI(title="Venezolanos Unidos API", default_response_class=_DefaultResponse)
+
+# Comprime respuestas grandes (recursos, búsquedas, estadísticas) para menor latencia.
+app.add_middleware(GZipMiddleware, minimum_size=500)
 
 # Allow CORS exclusively for the official web (configurable via env for local dev)
 DEFAULT_ORIGINS = "https://venezolanosunidos.com,https://www.venezolanosunidos.com"
@@ -117,8 +129,9 @@ def buscar_pacientes(
         (models.Paciente.cedula_id.ilike(f"%{cedula_q}%"))
     )
 
-    results = query.all()
-    
+    # Acotamos el payload y el tiempo de consulta en búsquedas muy amplias.
+    results = query.limit(100).all()
+
     pacientes_list = []
     for paciente, centro in results:
         pacientes_list.append({
@@ -136,8 +149,17 @@ def buscar_pacientes(
 
     return {"pacientes": pacientes_list}
 
+# Cache simple en memoria con TTL para endpoints de lectura pesados.
+_STATS_CACHE = {"ts": 0.0, "data": None}
+_STATS_TTL = 60  # segundos
+
 @app.get("/api/estadisticas")
 def get_estadisticas(db: Session = Depends(get_db)):
+    # Las agregaciones (counts, joins, top 5) son costosas; las servimos cacheadas
+    # durante _STATS_TTL para que el dashboard sea casi instantáneo bajo tráfico.
+    if _STATS_CACHE["data"] is not None and (time.time() - _STATS_CACHE["ts"]) < _STATS_TTL:
+        return _STATS_CACHE["data"]
+
     total_pacientes = db.query(models.Paciente).count()
     total_centros = db.query(models.CentroSalud).count()
     
@@ -160,13 +182,16 @@ def get_estadisticas(db: Session = Depends(get_db)):
     ).limit(5).all()
     
     hospitales_data = [{"name": h[0], "pacientes": h[1]} for h in hospitales]
-    
-    return {
+
+    data = {
         "total_pacientes": total_pacientes,
         "total_centros": total_centros,
         "condiciones": condicion_data,
         "hospitales": hospitales_data
     }
+    _STATS_CACHE["ts"] = time.time()
+    _STATS_CACHE["data"] = data
+    return data
 
 class PacienteCreate(BaseModel):
     nombres: str
@@ -201,7 +226,10 @@ def create_paciente(paciente: PacienteCreate, db: Session = Depends(get_db)):
     db.add(nuevo_paciente)
     db.commit()
     db.refresh(nuevo_paciente)
-    
+
+    # Un alta manual cambia las estadísticas: invalidamos el cache.
+    _STATS_CACHE["data"] = None
+
     return {"status": "success", "paciente_id": nuevo_paciente.id_paciente}
 
 class TraductorCreate(BaseModel):
