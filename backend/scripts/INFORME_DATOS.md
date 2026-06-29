@@ -5,7 +5,7 @@
 
 ## 1. De dónde vienen los datos (método)
 
-La base se alimenta de dos vías legítimas, **sin web scraping**:
+La base se alimenta de dos vías, a partir de datos compartidos por los propios voluntarios:
 
 1. **Consolidación de hojas colaborativas** (`ingest_all_data.py`): voluntarios y hospitales
    mantienen planillas en **Google Sheets / Google Drive** (Excel/CSV). El script las
