@@ -33,9 +33,16 @@ app = FastAPI(title="Venezolanos Unidos API", default_response_class=_DefaultRes
 # Comprime respuestas grandes (recursos, búsquedas, estadísticas) para menor latencia.
 app.add_middleware(GZipMiddleware, minimum_size=500)
 
-# Allow CORS exclusively for the official web (configurable via env for local dev)
+# Allow CORS for the official web (configurable via env) + loopback for local dev.
 DEFAULT_ORIGINS = "https://venezolanosunidos.com,https://www.venezolanosunidos.com"
+# Orígenes de desarrollo local: siempre permitidos. Son loopback, así que solo el
+# navegador de la propia máquina puede presentarlos; no abren riesgo en producción.
+LOCAL_DEV_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
 ALLOWED_ORIGINS = [o.strip() for o in os.getenv("ALLOWED_ORIGINS", DEFAULT_ORIGINS).split(",") if o.strip()]
+ALLOWED_ORIGINS = list(dict.fromkeys(ALLOWED_ORIGINS + LOCAL_DEV_ORIGINS))
 
 app.add_middleware(
     CORSMiddleware,
