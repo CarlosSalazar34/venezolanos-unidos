@@ -18,6 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <link
+          rel="icon"
+          href="/logo/logoVUBlack.png"
+          media="(prefers-color-scheme: light)"
+        />
+        <link
+          rel="icon"
+          href="/logo/logoVU.png"
+          media="(prefers-color-scheme: dark)"
+        />
+      </head>
       <body
         className={`${inter.className} antialiased h-dvh w-full overflow-hidden`}
       >
