@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/favicon.ico" width="80" height="80" alt="Logo de Venezolanos Unidos"/>
+  <img src="frontend/public/logo/logoVUBlack.png" width="140" alt="Logo de Venezolanos Unidos"/>
   <h1>Venezolanos Unidos 🇻🇪</h1>
   <p><em>En tiempos de crisis, la solidaridad y la tecnología se unen para salvar vidas.</em></p>
 </div>
