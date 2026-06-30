@@ -94,7 +94,7 @@ export default function Chatbot() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-80 md:w-96 h-[500px] glass-card rounded-2xl flex flex-col overflow-hidden z-50"
+            className="fixed bottom-24 right-6 w-80 md:w-96 h-125 glass-card rounded-2xl flex flex-col overflow-hidden z-50"
           >
             {/* Header */}
             <div className="bg-slate-800/80 p-4 border-b border-white/10 flex justify-between items-center">
@@ -111,7 +111,7 @@ export default function Chatbot() {
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto overscroll-contain p-4 space-y-4">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}

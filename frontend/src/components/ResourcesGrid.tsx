@@ -1,8 +1,8 @@
 "use client";
-
 import { HandHeart } from "lucide-react";
 import ResourceCard from "@/components/ResourceCard";
 import { AnimateOnView } from "@/components/AnimateOnView";
+import ReactLenis from "lenis/react";
 
 type ResourceProps = {
   category: string;
@@ -17,9 +17,9 @@ interface ResourcesGridProps {
 
 export function ResourcesGrid({ resources }: ResourcesGridProps) {
   return (
-    <div className="max-w-5xl px-4 sm:px-6 lg:px-8">
+    <ReactLenis className="max-w-5xl w-full max-h-128 overflow-y-auto overscroll-contain scrollbar-thin pr-1 py-1 scrollbar-thumb-foreground scrollable">
       {resources.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full ">
           {resources.map((resource, idx) => (
             <AnimateOnView
               key={`${resource.url}-${idx}`}
@@ -44,6 +44,6 @@ export function ResourcesGrid({ resources }: ResourcesGridProps) {
           </p>
         </div>
       )}
-    </div>
+    </ReactLenis>
   );
 }

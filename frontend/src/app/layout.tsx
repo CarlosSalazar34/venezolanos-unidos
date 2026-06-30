@@ -18,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={`${inter.className} antialiased h-dvh w-full overflow-hidden`}
+      >
         <JotaiProvider>{children}</JotaiProvider>
       </body>
     </html>

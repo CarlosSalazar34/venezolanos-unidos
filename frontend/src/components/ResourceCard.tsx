@@ -52,7 +52,11 @@ const getCategoryIcon = (category: string) => {
   return <ExternalLink className={iconClassName} />;
 };
 
-export default function ResourceCard({ resource }: { resource: ResourceProps }) {
+export default function ResourceCard({
+  resource,
+}: {
+  resource: ResourceProps;
+}) {
   return (
     <a
       href={resource.url}

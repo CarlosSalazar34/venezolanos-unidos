@@ -2,7 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { useAtom } from "jotai";
-import { animatedElementsAtom, generateElementId } from "@/atoms/animations";
+import {
+  animatedElementsAtom,
+  generateElementId,
+} from "@/components/atoms/animations";
 
 interface UseAnimationVisibleOptions {
   threshold?: number | number[];
@@ -10,17 +13,9 @@ interface UseAnimationVisibleOptions {
   triggerOnce?: boolean;
 }
 
-/**
- * Hook que gestiona automáticamente la animación de un elemento
- * Detecta cuando entra en viewport usando IntersectionObserver
- * @param options Configuración de observación
- * @returns {ref, isVisible} - ref para asignar al elemento, isVisible indica si está visible
- */
-export function useAnimationVisible(
-  options: UseAnimationVisibleOptions = {}
-) {
+export function useAnimationVisible(options: UseAnimationVisibleOptions = {}) {
   const { threshold = 0.1, rootMargin = "0px", triggerOnce = false } = options;
-  
+
   const elementRef = useRef<HTMLElement>(null);
   const [animatedElements, setAnimatedElements] = useAtom(animatedElementsAtom);
   const elementIdRef = useRef<string>(generateElementId());
@@ -50,7 +45,7 @@ export function useAnimationVisible(
         setAnimatedElements((prev) => {
           const newMap = new Map(prev);
           const current = newMap.get(elementId);
-          
+
           if (entry.isIntersecting) {
             // Elemento es visible
             newMap.set(elementId, {
@@ -78,7 +73,7 @@ export function useAnimationVisible(
       {
         threshold,
         rootMargin,
-      }
+      },
     );
 
     observer.observe(element);
@@ -95,7 +90,8 @@ export function useAnimationVisible(
   }, [threshold, rootMargin, triggerOnce, setAnimatedElements]);
 
   // Retornar el estado visible del elemento
-  const isVisible = animatedElements.get(elementIdRef.current)?.isVisible ?? false;
+  const isVisible =
+    animatedElements.get(elementIdRef.current)?.isVisible ?? false;
 
   return {
     ref: elementRef,
